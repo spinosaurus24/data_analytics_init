@@ -1,9 +1,12 @@
 import statistics
-
-
 def analyser_ventes(transactions):
-
+    """
+    Analyse une liste de montants de transactions (ventes).
+    Filtre les valeurs invalides, calcule les indicateurs statistiques
+    cles et detecte les transactions anormalement elevees (> 2x moyenne).
+    """
     ventes_valides = []
+
 
     for vente in transactions:
         if vente > 0:
@@ -32,7 +35,7 @@ def analyser_ventes(transactions):
     moyenne = somme_totale / nombre_transactions
 
     # Médiane
-    mediane = ventes_valides[len(ventes_valides) // 2]
+    mediane = statistics.median(ventes_valides)
 
     # Écart-type
     ecart_type = statistics.pstdev(ventes_valides)
@@ -63,7 +66,14 @@ def analyser_ventes(transactions):
     return resultats
 
 
-
+def calculer_marge_erreur(liste_nombres):
+    """
+    Calcule la marge d'erreur (etendue) d'une liste de nombres :
+    la difference entre la valeur maximale et la valeur minimale.
+    """
+    if not liste_nombres:
+        return 0
+    return max(liste_nombres) - min(liste_nombres)
 
 # Test
 transactions_test = [
@@ -90,3 +100,4 @@ print("Écart-type :", round(resultats["ecart_type"], 2), "€")
 print("Minimum :", resultats["minimum"], "€")
 print("Maximum :", resultats["maximum"], "€")
 print("Anomalies :", resultats["anomalies"])
+print("Marge d'erreur (etendue) :", calculer_marge_erreur(transactions_test), "€")
